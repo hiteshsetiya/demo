@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.extern.java.Log;
 
@@ -25,7 +26,15 @@ public class Categories {
    private String Categoriesname;
 
    @OneToMany(mappedBy = "categories", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JsonIgnore
    private List<Product> products = new ArrayList<Product>();
 
-
+   @Override
+   public String toString() {
+      return "Categories{" +
+              "CategoriesId=" + CategoriesId +
+              ", Categoriesname='" + Categoriesname + '\'' +
+              ", products=" + products +
+              '}';
+   }
 }

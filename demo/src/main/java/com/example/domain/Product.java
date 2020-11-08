@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -30,6 +31,7 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_categories_Id")
     @JsonIgnore
+    @JsonBackReference
     private Categories categories;
 
     @Column
@@ -37,4 +39,7 @@ public class Product {
 
     @Column
     private String price;
+
+
+
 }

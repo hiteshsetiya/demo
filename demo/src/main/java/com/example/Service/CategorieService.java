@@ -18,19 +18,11 @@ public class CategorieService {
     CategoriesRepositories categoriesRepositories;
 
     public Categories persistCategorie(Categories categories) {
-    if (Objects.nonNull(categories.getCategoriesId())) {
-      categories.setCategoriesId(categories.getCategoriesId());
-       }
-    if (Objects.nonNull(categories.getCategoriesname())) {
-      categories.setCategoriesname(categories.getCategoriesname());
-       }
-        List<Product> products = categories.getProducts();
-        for(Product product:products){
-            product.setCategories(categories);
-        }
         categoriesRepositories.save(categories);
-       return categories;
+        return categories;
     }
+
+
 
 
 }

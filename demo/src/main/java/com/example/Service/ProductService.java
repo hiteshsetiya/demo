@@ -33,6 +33,9 @@ public class ProductService {
     @Autowired
     public ProductRepository productRepository;
 
+    @Autowired
+    public  CategoriesRepositories categoriesRepositories;
+
 
     @Autowired
     public ImageRepository assetRepository;
@@ -59,23 +62,9 @@ public class ProductService {
     asset.setHeight(Long.valueOf(bufferedImage.getHeight()));
     asset.setType(contentType);
     assetRepository.save(asset);
-    if(Objects.nonNull(asset))
-    {
+    if(Objects.nonNull(asset)){
         product.setAsset(asset);
-    }}
-    if (Objects.nonNull(product.getName())) {
-      product.setName(product.getName());
-    }
-    if(Objects.nonNull(product.getCategories())){
-    product.setCategories(product.getCategories());}
-    if(Objects.nonNull(product.getColor()))
-    {
-    product.setColor(product.getColor());
-    }
-    if(Objects.nonNull(product.getPrice())){
-    product.setPrice(product.getPrice());
-    }
-    productRepository.save(product);
+    }productRepository.save(product);}
      return product;}
 
     private File convertMultiPartToFile(MultipartFile file)  {
@@ -99,22 +88,22 @@ public class ProductService {
         return convFile;
     }
 
-    public List<Product> findName(String name, String color, Long categorieId){
-        Optional<Categories> categorie = categories.findById(categorieId);
-        List<Product> productList = null;
-    if (Objects.nonNull(name) && Objects.nonNull(color)) {
-       productList =
-          productRepository.findAll(
-              where(hasName(name)).and(colorContains(color)));
-     }
-    else if(Objects.nonNull(color) && Objects.nonNull(categories)){
-        productList =  productRepository.findAll(
-                where(colorContains(color)).and(categoriesContains(categorie.get())));
+  public List<Product> searchProduct(String name, String color,Long CategoriesId) {
+      Optional<Categories> Categories = categoriesRepositories.findById(CategoriesId);
+      Optional<Product> ProductbyCategories = productRepository.findByCategories(Categories);
+      List<Product> productList = null;
+      if (Objects.nonNull(name) && Objects.nonNull(color) && Objects.nonNull(Categories)) {
+      productList = productRepository.findAll(where(hasName(name)).and(hasColor(color)));
+    } else if (Objects.nonNull(color)) {
+      productList =
+          productRepository.findAll(hasColor(color));
+    } else if (Objects.nonNull(name)) {
+      productList = productRepository.findAll((hasName(name)));
     }
-    else if(Objects.nonNull(name)){
-        productList =  productRepository.findAll((hasName(name)));
-    }
-    return  productList;
-    }
+    return productList;
+  }
+
+
+
 
 }

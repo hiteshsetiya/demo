@@ -20,12 +20,12 @@ public class CategorieController {
     private CategoriesRepositories categoriesRepositories;
 
     @GetMapping("/categorie")
-    List<Categories> all() {
+    List<Categories> addCategories() {
         return  categoriesRepositories.findAll();
     }
 
     @PostMapping("/categorie")
-    Categories saveProduct(@RequestBody Categories categories) {
+    Categories saveCategorie(@RequestBody Categories categories) {
         return categorieService.persistCategorie(categories);
     }
 }

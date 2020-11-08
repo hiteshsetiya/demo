@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/productTasks")
@@ -23,7 +24,7 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping("/products")
-    List<Product> all() {
+    List<Product> getProduct() {
         return productRepository.findAll();
     }
 
@@ -33,8 +34,8 @@ public class ProductController {
     }
 
        @GetMapping("/products/name")
-       List<Product> getName(String name, String color,  Long categorieId){
-           List<Product> names = productService.findName(name, color,categorieId);
+       List<Product> SearchByNameColor(@RequestParam("name") Optional<String> name, @RequestParam("color") Optional<String>  color, @RequestParam("categoriesId") Optional<Long> categoriesId){
+           List<Product> names = productService.searchProduct(name.get(),color.get(),categoriesId.get());
            return names;
        }
 
